@@ -104,6 +104,9 @@ type Modules struct {
 	// EdgeStream indicates edgestream module config
 	// +Required
 	EdgeStream *EdgeStream `json:"edgeStream,omitempty"`
+	// LocalMesh indicates localmesh module config
+	// +Required
+	LocalMesh *LocalMesh `json:"localMesh,omitempty"`
 }
 
 // Edged indicates the config fo edged module
@@ -426,4 +429,12 @@ type EdgeStream struct {
 	// WriteDeadline indicates write dead line (second)
 	// default 15
 	WriteDeadline int32 `json:"writeDeadline,omitempty"`
+}
+
+// DBTest indicates the DBTest module config
+type LocalMesh struct {
+	// Enable indicates whether DBTest is enabled,
+	// if set to false (for debugging etc.), skip checking other DBTest configs.
+	// default false
+	Enable bool `json:"enable"`
 }

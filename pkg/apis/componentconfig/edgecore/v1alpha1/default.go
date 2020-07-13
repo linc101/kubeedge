@@ -147,6 +147,9 @@ func NewDefaultEdgeCoreConfig() *EdgeCoreConfig {
 				TunnelServer:            fmt.Sprintf("127.0.0.1:%v", constants.DefaultTunnelPort),
 				WriteDeadline:           15,
 			},
+			LocalMesh: &LocalMesh{
+				Enable: false,
+			},
 		},
 	}
 }

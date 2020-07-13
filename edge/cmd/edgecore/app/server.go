@@ -23,6 +23,7 @@ import (
 	"github.com/kubeedge/kubeedge/edge/pkg/eventbus"
 	"github.com/kubeedge/kubeedge/edge/pkg/metamanager"
 	"github.com/kubeedge/kubeedge/edge/pkg/servicebus"
+	"github.com/kubeedge/kubeedge/edge/pkg/localmesh"
 	"github.com/kubeedge/kubeedge/edge/test"
 	edgemesh "github.com/kubeedge/kubeedge/edgemesh/pkg"
 	"github.com/kubeedge/kubeedge/pkg/apis/componentconfig/edgecore/v1alpha1"
@@ -154,6 +155,7 @@ func registerModules(c *v1alpha1.EdgeCoreConfig) {
 	edgemesh.Register(c.Modules.EdgeMesh)
 	metamanager.Register(c.Modules.MetaManager)
 	servicebus.Register(c.Modules.ServiceBus)
+	localmesh.Register(c.Modules.LocalMesh)
 	edgestream.Register(c.Modules.EdgeStream, c.Modules.Edged.HostnameOverride, c.Modules.Edged.NodeIP)
 	test.Register(c.Modules.DBTest)
 	// Nodte: Need to put it to the end, and wait for all models to register before executing
