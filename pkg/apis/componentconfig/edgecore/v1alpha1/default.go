@@ -151,6 +151,9 @@ func NewDefaultEdgeCoreConfig() *EdgeCoreConfig {
 				TunnelServer:            net.JoinHostPort("127.0.0.1", string(constants.DefaultTunnelPort)),
 				WriteDeadline:           15,
 			},
+			LocalMesh: &LocalMesh{
+				Enable: false,
+			},
 		},
 	}
 }
