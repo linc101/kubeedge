@@ -13,7 +13,7 @@ import (
 
 	"k8s.io/klog"
 
-	"github.com/kubeedge/kubeedge/edge/pkg/metamanager/cliegit git nt"
+	"github.com/kubeedge/kubeedge/edge/pkg/metamanager/client"
 	"github.com/kubeedge/kubeedge/edgemesh/pkg/common"
 	"github.com/kubeedge/kubeedge/edgemesh/pkg/config"
 	// "github.com/kubeedge/kubeedge/edgemesh/pkg/listener"
@@ -283,7 +283,7 @@ func lookupFromMetaManager(serviceURL string) (exist bool, ip string) {
 	name, namespace := common.SplitServiceKey(serviceURL)
 	s, _ := metaClient.Services(namespace).Get(name)
 	if s != nil {
-		ext,ip := getIPFromEP(serviceURL)
+		ext, ip := getIPFromEP(serviceURL)
 		klog.Infof("[LocalMesh] dns server parse %s ip %s", serviceURL, ip)
 		return ext, ip
 	}
@@ -301,7 +301,6 @@ func getIPFromEP(serviceURL string) (exist bool, ip string) {
 	}
 	return false, ""
 }
-
 
 // getFromRealDNS returns a dns response from real dns servers
 func getFromRealDNS(req []byte, from *net.UDPAddr) {
