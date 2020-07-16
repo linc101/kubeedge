@@ -15,7 +15,6 @@ import (
 
 	"github.com/kubeedge/kubeedge/edge/pkg/metamanager/client"
 	"github.com/kubeedge/kubeedge/edgemesh/pkg/common"
-	"github.com/kubeedge/kubeedge/edgemesh/pkg/config"
 	// "github.com/kubeedge/kubeedge/edgemesh/pkg/listener"
 )
 
@@ -295,6 +294,7 @@ func lookupFromMetaManager(serviceURL string) (exist bool, ip string) {
 func getIPFromEP(serviceURL string) (exist bool, ip string) {
 	name, namespace := common.SplitServiceKey(serviceURL)
 	e, _ := metaClient.Endpoints(namespace).Get(name)
+	// add policy for multi IPs
 	ip = e.Subsets[0].Addresses[0].IP
 	if ip != "" {
 		return true, ip
@@ -361,6 +361,8 @@ func parseNameServer() ([]net.IP, error) {
 	scan.Split(bufio.ScanLines)
 
 	ip := make([]net.IP, 0)
+	// ifi should read from config
+	lip, err := common.GetInterfaceIP(ifi)
 
 	for scan.Scan() {
 		serverString := scan.Text()
@@ -368,7 +370,7 @@ func parseNameServer() ([]net.IP, error) {
 			tmpString := strings.Replace(serverString, "nameserver", "", 1)
 			nameserver := strings.TrimSpace(tmpString)
 			sip := net.ParseIP(nameserver)
-			if sip != nil && !sip.Equal(config.Config.ListenIP) {
+			if sip != nil && !sip.Equal(lip) {
 				ip = append(ip, sip)
 			}
 		}
