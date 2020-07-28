@@ -15,6 +15,8 @@ import (
 
 	"github.com/kubeedge/kubeedge/edge/pkg/metamanager/client"
 	"github.com/kubeedge/kubeedge/edgemesh/pkg/common"
+	"github.com/kubeedge/kubeedge/edge/pkg/localmesh/config"
+
 	// "github.com/kubeedge/kubeedge/edgemesh/pkg/listener"
 )
 
@@ -22,7 +24,8 @@ type Event int
 
 var (
 	// default docker0
-	ifi = "docker0"
+	defaultInterface = config.Get().Interface
+	DNSPort = config.Get().DNSPort
 	// QR: 0 represents query, 1 represents response
 	dnsQR       = uint16(0x8000)
 	oneByteSize = uint16(1)
@@ -86,7 +89,7 @@ func startDNS() {
 	// init meta client
 	metaClient = client.New()
 	// get dns listen ip
-	lip, err := common.GetInterfaceIP(ifi)
+	lip, err := common.GetInterfaceIP(defaultInterface)
 	if err != nil {
 		klog.Errorf("[LocalMesh] get dns listen ip err: %v", err)
 		return
@@ -94,7 +97,7 @@ func startDNS() {
 
 	laddr := &net.UDPAddr{
 		IP:   lip,
-		Port: 53,
+		Port: DNSPort,
 	}
 	udpConn, err := net.ListenUDP("udp", laddr)
 	if err != nil {
@@ -361,8 +364,7 @@ func parseNameServer() ([]net.IP, error) {
 	scan.Split(bufio.ScanLines)
 
 	ip := make([]net.IP, 0)
-	// ifi should read from config
-	lip, err := common.GetInterfaceIP(ifi)
+	lip, err := common.GetInterfaceIP(defaultInterface)
 
 	for scan.Scan() {
 		serverString := scan.Text()

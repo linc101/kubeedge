@@ -436,5 +436,7 @@ type LocalMesh struct {
 	// Enable indicates whether DBTest is enabled,
 	// if set to false (for debugging etc.), skip checking other DBTest configs.
 	// default false
-	Enable bool `json:"enable"`
+	Enable  bool  `json:"enable"`
+	DNSPort int `json:"dnsPort"`
+	Interface string `json:"interface"`
 }

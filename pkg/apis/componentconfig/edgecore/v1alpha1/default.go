@@ -153,6 +153,8 @@ func NewDefaultEdgeCoreConfig() *EdgeCoreConfig {
 			},
 			LocalMesh: &LocalMesh{
 				Enable: false,
+				DNSPort: 53,
+				Interface: "docker0",
 			},
 		},
 	}
