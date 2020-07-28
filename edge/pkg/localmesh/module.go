@@ -6,7 +6,8 @@ import(
 	"github.com/kubeedge/kubeedge/pkg/apis/componentconfig/edgecore/v1alpha1"
 	"github.com/kubeedge/kubeedge/edge/pkg/common/modules"
 	"github.com/kubeedge/kubeedge/edge/pkg/localmesh/dns"
-	
+	"github.com/kubeedge/kubeedge/edge/pkg/localmesh/config"
+
 )
 type LocalMesh struct {
 	enable bool
@@ -14,9 +15,10 @@ type LocalMesh struct {
 
 }
 const localMeshName = "localmesh"
-
 // Register register localmesh
-func Register(m *v1alpha1.LocalMesh) {
+func Register(m *v1alpha1.LocalMesh, nodename string ) {
+
+	config.InitConfigure(m, nodename)
 	core.Register(newLocalMesh(m))
 }
 
